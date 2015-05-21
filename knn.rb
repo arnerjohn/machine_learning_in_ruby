@@ -26,10 +26,10 @@ class Property
 	def neighbors=(properties)
 		if properties.is_a? Array
 			properties.each do |property|
-				@neighbors << node.dup
+				@neighbors << property.dup
 			end
 		else
-			@neighbors << nodes.dup
+			@neighbors << properties.dup
 		end
 	end
 
@@ -60,6 +60,15 @@ class Property
 		guess_hash = gen_guess_hash(self.sort_neigbors_by_distance.take(k))
 		@guess = assign_guess(guess_hash)
 
+		msg = %Q{ 
+
+			Property attrs => rooms: #{ @rooms }, area: #{ @area }
+			The property type is guessed to be: #{ @guess }
+	
+		}	
+
+		puts msg
+
 		return @guess
 	end
 
@@ -67,7 +76,7 @@ class Property
 		guess_hash = Hash.new(0)
 		
 		properties.each do |property|
-			guess_hash[node.type] += 1
+			guess_hash[property.type] += 1
 		end
 
 		return guess_hash
